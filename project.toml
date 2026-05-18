@@ -1,0 +1,276 @@
+schema_version = 1
+template_version = "1.20.1-template-1.1.0"
+
+[mod]
+mod_id = "picontent"
+mod_name = "PiContent"
+version = "0.0.1"
+version_suffix = ""
+group = "com.mihono.pickaid"
+authors = ["PickAID Team"]
+license = "MIT"
+description = "Content authoring toolkit for the Pi stack."
+credits = "None"
+issue_tracker_url = "https://github.com/PickAID/PiContent/issues"
+
+[features]
+jei = false
+curios = false
+geckolib = false
+player_animator = false
+mixin_extras = false
+
+[languages]
+# Java is always enabled. Kotlin is opt-in and can be mixed with Java.
+kotlin = false
+
+[dev_packs]
+# Local-only helper packs for development runs.
+# They are for easier local testing and do not define your published API surface.
+
+# JEI + Jade for quick recipe lookup and in-world inspection during development.
+basic = false
+# AppleSkin on its own when you only want hunger and saturation HUD help.
+appleskin = false
+# Target Dummy + AttributeFix + Max Health Fix for combat balancing checks.
+combat = false
+# Curios runtime when you need accessory slot behavior in local runs.
+curios = false
+# Caelus + Iron's Spellbooks for spell and attribute smoke testing.
+spell = false
+# KubeJS is not a built-in dev pack on this branch.
+# Add it manually under [dependencies.*] when you need the script stack.
+
+[overrides]
+# Only override curated versions when an enabled built-in feature needs a
+# different version than the template default.
+# jei_version = "15.2.0.27"
+# curios_version = "5.9.1+1.20.1"
+# geckolib_version = "4.4.9"
+# player_animator_version = "1.0.2+1.20"
+# bendylib_version = "1.0.2"
+# mixin_extras_version = "0.2.0-beta.8"
+
+[repositories]
+# These common repositories are already filled in for you.
+# Most projects can leave this block alone and only add extra entries when a
+# mod or library lives somewhere else.
+# You can also use the inline-table form when you want a clearer display name
+# or a content filter for specific groups:
+# custom_spell_repo = { url = "https://code.redspace.io/releases", name = "Redspace", groups = ["io.redspace.ironsspellbooks"], group_regexes = ["io\\.redspace\\..*"] }
+blamejared = "https://maven.blamejared.com/"
+tterrag = "https://maven.tterrag.com/"
+sponge = "https://repo.spongepowered.org/maven"
+geckolib = "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/"
+curios = "https://maven.theillusivec4.top/"
+kosmx = "https://maven.kosmx.dev/"
+cursemaven = "https://cursemaven.com"
+architectury = "https://maven.architectury.dev"
+latvian = "https://maven.latvian.dev/releases"
+jitpack = "https://jitpack.io"
+mihono = "https://maven.mihono.cn/repository/pickaid1201/"
+
+[dependencies]
+# Use nested tables by Gradle-style bucket name.
+# Buckets ending in _api are for libraries you expose to downstream compile
+# consumers. deobf_* buckets are for mod dependencies that need remapping.
+# Example:
+# [dependencies.deobf_api]
+# registrate_api = "com.tterrag.registrate:Registrate:MC1.20-1.3.2"
+#
+# [dependencies.deobf_compile_only]
+# kubejs = "dev.latvian.mods:kubejs-forge:2001.6.5-build.16"
+#
+# [dependencies.deobf_implementation]
+# architectury = { notation = "dev.architectury:architectury-forge:9.1.12", transitive = false }
+#
+# Advanced native import example. Only prebuilt JNI/JNA binaries are packaged;
+# the template does not compile Rust/C/C++ sources.
+# Files go under native-libs/<library>/<platform>/<fileName>.
+# [native_libraries.physics]
+# load_name = "pickaid_physics"
+# loader = "jni"
+# platforms = ["windows-x86_64", "linux-x86_64", "macos-aarch64"]
+# required = true
+#
+# [dependencies.deobf_compile_only_api]
+# curios_api = "top.theillusivec4.curios:curios-forge:5.9.1+1.20.1"
+#
+# [dependencies.jarjar]
+# helper = { notation = "com.example:helper-forge:1.0.0", range = "[1.0.0,)" }
+#
+# `jarjar` 只负责把依赖打进你的模组 jar。
+# 如果这个依赖还要暴露给下游编译，请把它放进正常依赖桶，再加 `range`：
+# [dependencies.deobf_compile_only_api]
+# helper_api = { notation = "com.example:helper-forge:1.0.0", range = "[1.0.0,)" }
+#
+# 多模块工程里的子项目嵌入不要写在 [dependencies]，而是写在 [embedded_projects]：
+# [embedded_projects.api]
+# core = ":core"
+# # 或者：
+# # core = { path = ":core", configuration = "namedElements" }
+#
+# [embedded_projects.implementation]
+# internal = ":internal"
+#
+# The common ecosystem entries below are already filled out for reference.
+# Leave them commented if you are using [features] or [dev_packs].
+# Uncomment them when you want to control these dependencies manually.
+#
+# Base API surface example:
+# [dependencies.deobf_api]
+# registrate = "com.tterrag.registrate:Registrate:MC1.20-1.3.2"
+#
+# Common feature-style examples:
+# [dependencies.deobf_compile_only]
+# jei_common_api = "mezz.jei:jei-1.20.1-common-api:15.2.0.27"
+# jei_forge_api = "mezz.jei:jei-1.20.1-forge-api:15.2.0.27"
+# curios = "top.theillusivec4.curios:curios-forge:5.9.1+1.20.1"
+#
+# [dependencies.deobf_runtime_only]
+# jei_runtime = "mezz.jei:jei-1.20.1-forge:15.2.0.27"
+# bendylib = "io.github.kosmx.bendy-lib:bendy-lib-forge:1.0.2"
+#
+# [dependencies.deobf_implementation]
+# geckolib = "software.bernie.geckolib:geckolib-neoforge-1.20.1:4.4.9"
+# player_animator = "dev.kosmx.player-anim:player-animation-lib-forge:1.0.2+1.20"
+# mixinextras_forge = "com.github.llamalad7.mixinextras:mixinextras-forge:0.2.0-beta.8"
+#
+# [dependencies.compile_only]
+# mixinextras_common = "com.github.llamalad7.mixinextras:mixinextras-common:0.2.0-beta.8"
+#
+# [dependencies.annotation_processor]
+# mixinextras_common_processor = "com.github.llamalad7.mixinextras:mixinextras-common:0.2.0-beta.8"
+#
+# Typical extra ecosystem examples:
+# [dependencies.deobf_compile_only]
+# kubejs = "dev.latvian.mods:kubejs-forge:2001.6.5-build.16"
+# rhino = "dev.latvian.mods:rhino-forge:2001.2.2-build.18"
+#
+# [dependencies.deobf_implementation]
+# architectury = { notation = "dev.architectury:architectury-forge:9.1.12", transitive = false }
+
+# Built-in local dev packs can be toggled in [dev_packs].
+# basic: JEI + Jade
+# appleskin: AppleSkin only
+# combat: Target Dummy + AttributeFix + Max Health Fix
+# curios: Curios runtime
+# spell: Caelus + Iron's Spellbooks
+# KubeJS / Rhino / Architectury are left as manual dependency examples.
+
+[dependencies.deobf_implementation]
+pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11-dev", transitive = false }
+
+[dependencies.jarjar]
+pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11-dev", range = "[0.0.11-dev,0.1.0)", transitive = false }
+
+[dependencies.test_implementation]
+junit_jupiter = "org.junit.jupiter:junit-jupiter:5.10.2"
+
+[dependencies.test_runtime_only]
+junit_platform_launcher = "org.junit.platform:junit-platform-launcher:1.10.2"
+
+[metadata]
+# Optional mod metadata written into mods.toml.
+# logo_file = "icon.png"
+# logo_blur = true
+# show_as_resource_pack = false
+# show_as_data_pack = false
+# update_json_url = ""
+# display_url = ""
+# Allowed: MATCH_VERSION, IGNORE_SERVER_VERSION, IGNORE_ALL_VERSION, NONE
+# display_test = "MATCH_VERSION"
+
+# Forge 1.20.1 only writes required/optional relations into mods.toml.
+# incompatible and embedded still feed Modrinth/CurseForge relation metadata.
+# discouraged is not supported on this branch.
+# required/optional must define version_range.
+# ordering: NONE, BEFORE, AFTER
+# side: BOTH, CLIENT, SERVER
+# String shorthand means version_range only:
+# [mod_relations.required]
+# curios = "[5.9.1,)"
+#
+# Inline-table form lets you control metadata and upload platform ids:
+# [mod_relations.optional]
+# jade = { version_range = "*", ordering = "NONE", side = "BOTH", referral_url = "https://www.curseforge.com/minecraft/mc-mods/jade", modrinth = "nvQzSEkH", curseforge = "324717" }
+#
+# incompatible/embedded must define at least one upload-platform project id.
+# [mod_relations.incompatible]
+# optifine = { modrinth = "nCQRBEiR", curseforge = "228404" }
+#
+# [mod_relations.embedded]
+# geckolib = { modrinth = "8BmcQJ2H", curseforge = "388172" }
+
+[publish]
+# Leave blank for local-only publishing. MAVEN_URL can override this in CI.
+maven_url = "https://maven.mihono.cn/repository/pickaid1201/"
+# Local machine settings should normally go in project.local.toml instead:
+# - [run].mc_user
+# - [publish].maven_user / maven_password / modrinth_token / curseforge_token
+# See project.local.toml.example.
+#
+# Temporary fallbacks are still accepted here, but prefer env vars or
+# project.local.toml and do not commit filled-in secrets.
+# CurseForge upload tokens are generated from the API Tokens page:
+# https://support.curseforge.com/support/solutions/articles/9000197321-curseforge-api
+# Direct page:
+# https://authors-old.curseforge.com/account/api-tokens
+# Modrinth PATs are generated from user settings:
+# https://docs.modrinth.com/api/
+# Settings entry:
+# https://modrinth.com/settings/account
+# maven_user = ""
+# maven_password = ""
+# modrinth_token = ""
+# curseforge_token = ""
+curseforge_project = 0
+modrinth_project = ""
+# Prefer MAVEN_USER / MAVEN_PASSWORD from the environment. The TOML fallback
+# above is only for temporary local use.
+# release_type: alpha, beta, release
+release_type = "alpha"
+
+[publish.mods]
+# Shared defaults for Modrinth and CurseForge uploads.
+# Supported tokens: {mod_id}, {mod_name}, {version}, {mc_version}, {loader}, {archive_name}
+release_type = "alpha"
+version_name = "[{mc_version}] {mod_name} {version}"
+display_name = "[{mc_version}] {mod_name} - {version}"
+changelog = ""
+changelog_file = "CHANGELOG.md"
+# version extracts only the current mod.version section; full uploads the whole file.
+changelog_section = "version"
+changelog_type = "markdown"
+game_versions = ["1.20.1"]
+loaders = ["forge"]
+
+[publish.modrinth]
+# Project slug or id. Leave blank to skip Modrinth.
+project = ""
+# token = ""
+# version_name = "[{mc_version}] {mod_name} {version}"
+# changelog = ""
+# changelog_file = "CHANGELOG.md"
+# changelog_section = "version"
+# game_versions = ["1.20.1"]
+# loaders = ["forge"]
+# sync_body_file = "README.MD"
+# debug = false
+
+[publish.curseforge]
+# Numeric project id. Leave 0 to skip CurseForge.
+project = 0
+# token = ""
+# display_name = "[{mc_version}] {mod_name} - {version}"
+# changelog = ""
+# changelog_file = "CHANGELOG.md"
+# changelog_section = "version"
+# changelog_type = "markdown"
+# game_versions = ["1.20.1", "Forge"]
+# manual_release = false
+# parent_file_id = 0
+
+[naming]
+archive_name = "picontent"
+jar_format = "{archive_name}-{mc_version}-{version}"

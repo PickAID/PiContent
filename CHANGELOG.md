@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.5
+
+- Add P0 datagen declaration bundle for item, block, blockstate, loot, tag, and creative sample metadata.
+- Keep datagen output declaration-only; provider integration remains outside P0.
+
 ## 0.0.4
 
 - Add P0 block entity authoring plan objects and builder metadata.

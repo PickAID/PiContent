@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.4
+
+- Add P0 block entity authoring plan objects and builder metadata.
+- Add declaration-only menu, sync, capability, and renderer needs.
+
 ## 0.0.3
 
 - Add P0 block authoring plan objects and builder metadata.

@@ -4,7 +4,7 @@ template_version = "1.20.1-template-1.1.0"
 [mod]
 mod_id = "picontent"
 mod_name = "PiContent"
-version = "0.0.2"
+version = "0.0.3"
 version_suffix = ""
 group = "com.mihono.pickaid"
 authors = ["PickAID Team"]

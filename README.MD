@@ -12,7 +12,7 @@ PiContent 是 Pi 栈的内容生产工具包。它负责 Item、Block、BlockEnt
 ## Maven
 
 ```gradle
-implementation fg.deobf("com.mihono.pickaid:picontent:0.0.2")
+implementation fg.deobf("com.mihono.pickaid:picontent:0.0.3")
 ```
 
 ## 边界

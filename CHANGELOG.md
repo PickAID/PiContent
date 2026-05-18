@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.0.3
+
+- Add P0 block authoring plan objects and builder metadata.
+- Add block shape, placement, loot, model, tag, simple item, and creative declarations.
+
 ## 0.0.2
 
 - Add P0 item authoring plan objects and builder metadata.

@@ -12,7 +12,7 @@ PiContent is the Pi stack content authoring toolkit. It owns Item, Block, BlockE
 ## Maven
 
 ```gradle
-implementation fg.deobf("com.mihono.pickaid:picontent:0.0.2")
+implementation fg.deobf("com.mihono.pickaid:picontent:0.0.3")
 ```
 
 ## Boundaries

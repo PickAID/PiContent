@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.6
+
+- Consume the formal Pibrary 0.0.11 P0 runtime artifact.
+
 ## 0.0.5
 
 - Add P0 datagen declaration bundle for item, block, blockstate, loot, tag, and creative sample metadata.

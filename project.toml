@@ -4,7 +4,7 @@ template_version = "1.20.1-template-1.1.0"
 [mod]
 mod_id = "picontent"
 mod_name = "PiContent"
-version = "0.0.5"
+version = "0.0.6"
 version_suffix = ""
 group = "com.mihono.pickaid"
 authors = ["PickAID Team"]
@@ -159,10 +159,10 @@ mihono = "https://maven.mihono.cn/repository/pickaid1201/"
 # KubeJS / Rhino / Architectury are left as manual dependency examples.
 
 [dependencies.deobf_implementation]
-pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11-dev", transitive = false }
+pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11", transitive = false }
 
 [dependencies.jarjar]
-pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11-dev", range = "[0.0.11-dev,0.1.0)", transitive = false }
+pibrary = { notation = "com.mihono.pickaid:pibrary:0.0.11", range = "[0.0.11,0.1.0)", transitive = false }
 
 [dependencies.test_implementation]
 junit_jupiter = "org.junit.jupiter:junit-jupiter:5.10.2"

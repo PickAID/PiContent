@@ -15,7 +15,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.pickaid.picontent.api.block.PiBlockPropertiesPlan;
 import org.pickaid.picontent.api.item.PiItemPropertiesPlan;
 
@@ -25,18 +24,13 @@ import java.util.Map;
 
 public final class PiForgeContentRegistry {
     private final PiContentRegistrationPlan plan;
-    private final DeferredRegister<Item> items;
-    private final DeferredRegister<Block> blocks;
-    private final DeferredRegister<BlockEntityType<?>> blockEntities;
-    private final Map<String, RegistryObject<Item>> itemEntries = new LinkedHashMap<>();
-    private final Map<String, RegistryObject<Block>> blockEntries = new LinkedHashMap<>();
-    private final Map<String, RegistryObject<BlockEntityType<?>>> blockEntityEntries = new LinkedHashMap<>();
+    private final Map<String, PiForgeRegistryEntry<Item>> itemEntries = new LinkedHashMap<>();
+    private final Map<String, PiForgeRegistryEntry<Block>> blockEntries = new LinkedHashMap<>();
+    private final Map<String, PiForgeRegistryEntry<BlockEntityType<?>>> blockEntityEntries = new LinkedHashMap<>();
+    private final Map<String, PiForgeBlockEntityFactory<?>> blockEntityFactories = new LinkedHashMap<>();
 
     private PiForgeContentRegistry(PiContentRegistrationPlan plan) {
         this.plan = plan;
-        this.items = DeferredRegister.create(ForgeRegistries.ITEMS, plan.modId());
-        this.blocks = DeferredRegister.create(ForgeRegistries.BLOCKS, plan.modId());
-        this.blockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, plan.modId());
     }
 
     public static PiForgeContentRegistry create(PiContentRegistrationPlan plan) {
@@ -45,30 +39,49 @@ public final class PiForgeContentRegistry {
 
     public PiForgeContentRegistry registerItem(String name) {
         PiContentItemRegistration item = plan.item(name);
-        itemEntries.put(name, items.register(name, () -> new Item(itemProperties(item.properties()))));
+        itemEntries.put(name, new PiForgeRegistryEntry<>(name, item.id()));
         return this;
     }
 
     public PiForgeContentRegistry registerBlock(String name) {
         PiContentBlockRegistration block = plan.block(name);
-        if (block.blockEntityHost()) {
-            blockEntries.put(name, blocks.register(name, () -> new PiContentEntityBlock(blockProperties(block.properties()), blockEntityEntry(name))));
-        } else {
-            blockEntries.put(name, blocks.register(name, () -> new Block(blockProperties(block.properties()))));
-        }
+        blockEntries.put(name, new PiForgeRegistryEntry<>(name, block.id()));
         if (plan.item(name) != null && !itemEntries.containsKey(name)) {
-            itemEntries.put(name, items.register(name, () -> new BlockItem(blockEntry(name).get(), itemProperties(plan.item(name).properties()))));
+            itemEntries.put(name, new PiForgeRegistryEntry<>(name, plan.item(name).id()));
         }
         return this;
     }
 
     public <T extends BlockEntity> PiForgeContentRegistry registerBlockEntity(String name, PiForgeBlockEntityFactory<T> factory) {
         PiContentBlockEntityRegistration blockEntity = plan.blockEntity(name);
-        blockEntityEntries.put(name, blockEntities.register(name, () -> blockEntityType(blockEntity, factory)));
+        blockEntityEntries.put(name, new PiForgeRegistryEntry<>(name, blockEntity.id()));
+        blockEntityFactories.put(name, factory);
         return this;
     }
 
     public PiForgeContentRegistry registerAllContent(IEventBus modEventBus) {
+        DeferredRegister<Item> items = DeferredRegister.create(ForgeRegistries.ITEMS, plan.modId());
+        DeferredRegister<Block> blocks = DeferredRegister.create(ForgeRegistries.BLOCKS, plan.modId());
+        DeferredRegister<BlockEntityType<?>> blockEntities = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, plan.modId());
+
+        blockEntries.forEach((name, entry) -> {
+            PiContentBlockRegistration block = plan.block(name);
+            if (block.blockEntityHost()) {
+                entry.bind(blocks.register(name, () -> new PiContentEntityBlock(blockProperties(block.properties()), blockEntityEntry(name))));
+            } else {
+                entry.bind(blocks.register(name, () -> new Block(blockProperties(block.properties()))));
+            }
+        });
+        blockEntityEntries.forEach((name, entry) -> entry.bind(blockEntities.register(name, () -> blockEntityType(plan.blockEntity(name), blockEntityFactory(name)))));
+        itemEntries.forEach((name, entry) -> {
+            PiContentItemRegistration item = plan.item(name);
+            if (plan.block(name) != null) {
+                entry.bind(items.register(name, () -> new BlockItem(blockEntry(name).get(), itemProperties(item.properties()))));
+            } else {
+                entry.bind(items.register(name, () -> new Item(itemProperties(item.properties()))));
+            }
+        });
+
         items.register(modEventBus);
         blocks.register(modEventBus);
         blockEntities.register(modEventBus);
@@ -80,12 +93,17 @@ public final class PiForgeContentRegistry {
     }
 
     @SuppressWarnings("unchecked")
-    private <T extends BlockEntity> RegistryObject<BlockEntityType<T>> blockEntityEntry(String name) {
-        return (RegistryObject<BlockEntityType<T>>) (RegistryObject<?>) blockEntityEntries.get(name);
+    private <T extends BlockEntity> PiForgeRegistryEntry<BlockEntityType<T>> blockEntityEntry(String name) {
+        return (PiForgeRegistryEntry<BlockEntityType<T>>) (PiForgeRegistryEntry<?>) blockEntityEntries.get(name);
     }
 
-    private RegistryObject<Block> blockEntry(String name) {
+    private PiForgeRegistryEntry<Block> blockEntry(String name) {
         return blockEntries.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T extends BlockEntity> PiForgeBlockEntityFactory<T> blockEntityFactory(String name) {
+        return (PiForgeBlockEntityFactory<T>) blockEntityFactories.get(name);
     }
 
     private <T extends BlockEntity> BlockEntityType<T> blockEntityType(
@@ -106,7 +124,7 @@ public final class PiForgeContentRegistry {
         if (location == null || !location.getNamespace().equals(plan.modId())) {
             throw new IllegalArgumentException("Only local block ids can be bound during P0 registration: " + id);
         }
-        RegistryObject<Block> block = blockEntries.get(location.getPath());
+        PiForgeRegistryEntry<Block> block = blockEntries.get(location.getPath());
         if (block == null) {
             throw new IllegalStateException("Unknown PiContent block plan: " + id);
         }
@@ -133,11 +151,11 @@ public final class PiForgeContentRegistry {
     }
 
     private static final class PiContentEntityBlock extends BaseEntityBlock {
-        private final RegistryObject<BlockEntityType<BlockEntity>> blockEntityType;
+        private final PiForgeRegistryEntry<BlockEntityType<BlockEntity>> blockEntityType;
 
         private PiContentEntityBlock(
                 BlockBehaviour.Properties properties,
-                RegistryObject<BlockEntityType<BlockEntity>> blockEntityType
+                PiForgeRegistryEntry<BlockEntityType<BlockEntity>> blockEntityType
         ) {
             super(properties);
             this.blockEntityType = blockEntityType;

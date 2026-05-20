@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.8
+
+- Delay PiContent Forge registry binding until the mod event bus registration step.
+
 ## 0.0.7
 
 - Add P0 Forge registration plans and bindings for PiContent item, block, and block entity authoring.

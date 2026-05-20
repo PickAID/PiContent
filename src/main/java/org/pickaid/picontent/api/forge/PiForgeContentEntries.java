@@ -4,15 +4,14 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.registries.RegistryObject;
 
 import java.util.List;
 import java.util.Map;
 
 public record PiForgeContentEntries(
-        Map<String, RegistryObject<Item>> items,
-        Map<String, RegistryObject<Block>> blocks,
-        Map<String, RegistryObject<BlockEntityType<?>>> blockEntities
+        Map<String, PiForgeRegistryEntry<Item>> items,
+        Map<String, PiForgeRegistryEntry<Block>> blocks,
+        Map<String, PiForgeRegistryEntry<BlockEntityType<?>>> blockEntities
 ) {
     public PiForgeContentEntries {
         items = Map.copyOf(items);
@@ -20,28 +19,28 @@ public record PiForgeContentEntries(
         blockEntities = Map.copyOf(blockEntities);
     }
 
-    public RegistryObject<Item> item(String name) {
+    public PiForgeRegistryEntry<Item> item(String name) {
         return items.get(name);
     }
 
-    public RegistryObject<Block> block(String name) {
+    public PiForgeRegistryEntry<Block> block(String name) {
         return blocks.get(name);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends BlockEntity> RegistryObject<BlockEntityType<T>> blockEntity(String name) {
-        return (RegistryObject<BlockEntityType<T>>) (RegistryObject<?>) blockEntities.get(name);
+    public <T extends BlockEntity> PiForgeRegistryEntry<BlockEntityType<T>> blockEntity(String name) {
+        return (PiForgeRegistryEntry<BlockEntityType<T>>) (PiForgeRegistryEntry<?>) blockEntities.get(name);
     }
 
-    public List<RegistryObject<Item>> itemEntries() {
+    public List<PiForgeRegistryEntry<Item>> itemEntries() {
         return List.copyOf(items.values());
     }
 
-    public List<RegistryObject<Block>> blockEntries() {
+    public List<PiForgeRegistryEntry<Block>> blockEntries() {
         return List.copyOf(blocks.values());
     }
 
-    public List<RegistryObject<BlockEntityType<?>>> blockEntityEntries() {
+    public List<PiForgeRegistryEntry<BlockEntityType<?>>> blockEntityEntries() {
         return List.copyOf(blockEntities.values());
     }
 }

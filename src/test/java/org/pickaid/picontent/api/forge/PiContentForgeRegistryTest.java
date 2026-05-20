@@ -48,5 +48,6 @@ final class PiContentForgeRegistryTest {
         assertFalse(plan.items().isEmpty());
         assertFalse(plan.blocks().isEmpty());
         assertFalse(plan.blockEntities().isEmpty());
+
     }
 }

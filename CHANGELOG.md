@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.7
+
+- Add P0 Forge registration plans and bindings for PiContent item, block, and block entity authoring.
+
 ## 0.0.6
 
 - Consume the formal Pibrary 0.0.11 P0 runtime artifact.

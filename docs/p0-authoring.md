@@ -9,3 +9,6 @@ PiContent P0 starts with declaration objects and builder plans. Runtime systems 
 3. Block authoring plans.
 4. BlockEntity authoring plans.
 5. Datagen declaration bundle.
+6. Forge registration plan and binding layer for real item, block, and block entity entries.
+
+The Forge binding layer consumes the same item, block, and block entity plans used for datagen. It creates registry entries only; gameplay validation, renderer backends, networking, and runtime state remain in PiEngine, PiRenderRuntime, PiUI, and downstream mods.
